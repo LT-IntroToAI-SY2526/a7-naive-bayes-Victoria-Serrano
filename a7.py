@@ -85,7 +85,11 @@ class BayesClassifier:
         # positive frequency dictionary. If it is neither a postive or negative file,
         # ignore it and move to the next file (this is more just to be safe; we won't
         # test your code with neutral reviews)
-        
+          if filename.startswith(self.neg_file_prefix):
+                self.update_dict(tokens, self.neg_freqs)
+            elif filename.startswith(self.pos_file_prefix):
+                self.update_dict(tokens, self.pos_freqs)
+        print(self.neg_freqs)
 
         # Updating frequences: to update the frequencies for each file, you need to get
         # the text of the file, tokenize it, then update the appropriate dictionary for
@@ -102,6 +106,8 @@ class BayesClassifier:
         # avoid extra work in the future (using the save_dict method). The objects you
         # are saving are self.pos_freqs and self.neg_freqs and the filepaths to save to
         # are self.pos_filename and self.neg_filename
+        self.save_dict(self.pos_freqs, self.pos_filename)
+        self.save_dict(self.neg_freqs, self.neg_filename)
 
     def classify(self, text: str) -> str:
         """Classifies given text as positive, or negative from calculating the
@@ -117,36 +123,48 @@ class BayesClassifier:
 
         
         # get a list of the individual tokens that occur in text
-        
+         tokens = self.tokenize(text)
 
         # create some variables to store the positive and negative probability. since
         # we will be adding logs of probabilities, the initial values for the positive
         # and negative probabilities are set to 0
-        
+        pos_score = 0
+        neg_score = 0
 
         # get the sum of all of the frequencies of the features in each document class
         # (i.e. how many words occurred in all documents for the given class) - this
         # will be used in calculating the probability of each document class given each
         # individual feature
-        
+        pos_total = sum(self.pos_freqs.values())
+        neg_total = sum(self.neg_freqs.values())
 
         # for each token in the text, calculate the probability of it occurring in a
         # postive document and in a negative document and add the logs of those to the
         # running sums. when calculating the probabilities, always add 1 to the numerator
         # of each probability for add one smoothing (so that we never have a probability
         # of 0)
-
+        for token in tokens:
+            pos_freqs = self.pos_freqs.get(token, 0) + 1
+            neg_freqs = self.neg_freqs.get(token, 0) + 1
+    
+            pos_score = math.log(pos_freqs / pos_total)
+            neg_score = math.log(neg_freqs / neg_total)
 
         # for debugging purposes, it may help to print the overall positive and negative
         # probabilities
-        
+        print(f"Positive Score: {pos_score}")
+        print(f"Negative Score: {neg_score}")
 
         # determine whether positive or negative was more probable (i.e. which one was
         # larger)
         
 
         # return a string of "positive" or "negative"
-
+        if pos_score > neg_score:
+            return "positive"
+        else: 
+            return "negative"
+    
     def load_file(self, filepath: str) -> str:
         """Loads text of given file
 
@@ -278,9 +296,8 @@ if __name__ == "__main__":
     # print("\nThe following should all be negative.")
     # print(b.classify('rainy days are the worst'))
     # print(b.classify('computer science is terrible'))
-    pass
-
-     # Use this space to complete your analysis assignment
+    
+    # Use this space to complete your analysis assignment
     print("\nThe following is to test out the method with each groups responses")
     print(b.classify("Summer break is almost here.  I am super excited and I know that it's going to be the best"))
 
@@ -295,5 +312,7 @@ if __name__ == "__main__":
     # Two positive reviews
     print(b.classify(I am going to do so well on my test since I studied and understand the material!))
     print(b.classify(My outift looks really good, I spent so long making it.))
+    pass
+
 
     # Two negative reviews
