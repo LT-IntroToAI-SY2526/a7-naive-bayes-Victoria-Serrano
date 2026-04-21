@@ -279,3 +279,21 @@ if __name__ == "__main__":
     # print(b.classify('rainy days are the worst'))
     # print(b.classify('computer science is terrible'))
     pass
+
+     # Use this space to complete your analysis assignment
+    print("\nThe following is to test out the method with each groups responses")
+    print(b.classify("Summer break is almost here.  I am super excited and I know that it's going to be the best"))
+
+
+    # Complete two more positive sentiment strings
+
+    # Negative sentiment statements
+    print(b.classify("I am nervous that I won't do well on the AP tests.  I have studied, but I don't think I'll do that well"))
+    # Complete two more negative sentiment strings
+
+
+    # Two positive reviews
+    print(b.classify(I am going to do so well on my test since I studied and understand the material!))
+    print(b.classify(My outift looks really good, I spent so long making it.))
+
+    # Two negative reviews
