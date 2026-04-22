@@ -73,7 +73,7 @@ class BayesClassifier:
             print(f"Training on file {index} of {len(files)}")
         #     <the rest of your code for updating frequencies here>
             print(f"{index}: {filename}")
-            text = self.load_file(os.path.join(self.training_data_directory, filename {1}))
+            text = self.load_file(os.path.join(self.training_data_directory, filename))
             print(text)
             tokens = self.tokenize(text)
             print(tokens)
@@ -92,16 +92,11 @@ class BayesClassifier:
           if filename.startswith(self.neg_file_prefix):
 =======
               if filename.startswith(self.neg_file_prefix):
->>>>>>> 378824270fd7715c87d65bb81b124d3cf8dbba17
                 self.update_dict(tokens, self.neg_freqs)
             elif filename.startswith(self.pos_file_prefix):
                 self.update_dict(tokens, self.pos_freqs)
         print(self.neg_freqs)
 =======
-
-        
->>>>>>> 378824270fd7715c87d65bb81b124d3cf8dbba17
-
         # Updating frequences: to update the frequencies for each file, you need to get
         # the text of the file, tokenize it, then update the appropriate dictionary for
         # those tokens. We've asked you to write a function `update_dict` that will make
@@ -122,8 +117,7 @@ class BayesClassifier:
 
     def classify(self, text: str) -> str:
         """
-        Classifies given text as positive, or negative from calculating the
-        most likely document class to which the target string belongs
+    
 
         Args:
         text - text to classify
@@ -161,11 +155,8 @@ class BayesClassifier:
         for token in tokens:
           
           for token in tokens:
-            pos_freqs = self.pos_freqs.get(token, 0) + 1
-            neg_freqs = self.neg_freqs.get(token, 0) + 1
-    
-            pos_score = math.log(pos_freqs / pos_total)
-            neg_score = math.log(neg_freqs / neg_total)
+            pos_score += math.log((self.pos_freqs.get(token, 0) + 1) / pos_total)
+            neg_score += math.log((self.neg_freqs.get(token, 0) + 1) / neg_total)
 
         # for debugging purposes, it may help to print the overall positive and negative
         # probabilities
@@ -266,17 +257,12 @@ class BayesClassifier:
             words - list of tokens to update frequencies of
             freqs - dictionary of frequencies to update
         """
-        # TODO: your work here
-        pass  # remove this line once you've implemented this method
-
-        
+        # TODO: your work here        
 
           # print(freqs)
         for w in words:
             if w in freqs:
-                freqs[w] += 1
-            else: 
-                freqs[w] = 1
+                freqs[w] = freqs.get(w,0) + 1
     
 
 
