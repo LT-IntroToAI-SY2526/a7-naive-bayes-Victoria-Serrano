@@ -1,6 +1,8 @@
 import math, os, pickle, re
 from typing import Tuple, List, Dict
 
+from sklearn.metrics import classification_report
+
 
 class BayesClassifier:
     """A simple BayesClassifier implementation
@@ -71,7 +73,7 @@ class BayesClassifier:
             print(f"Training on file {index} of {len(files)}")
         #     <the rest of your code for updating frequencies here>
             print(f"{index}: {filename}")
-            text = self.load_file(os.path.join(self.training_data_directory, file {1}))
+            text = self.load_file(os.path.join(self.training_data_directory, filename {1}))
             print(text)
             tokens = self.tokenize(text)
             print(tokens)
@@ -85,11 +87,20 @@ class BayesClassifier:
         # positive frequency dictionary. If it is neither a postive or negative file,
         # ignore it and move to the next file (this is more just to be safe; we won't
         # test your code with neutral reviews)
+
+        """
           if filename.startswith(self.neg_file_prefix):
+=======
+              if filename.startswith(self.neg_file_prefix):
+>>>>>>> 378824270fd7715c87d65bb81b124d3cf8dbba17
                 self.update_dict(tokens, self.neg_freqs)
             elif filename.startswith(self.pos_file_prefix):
                 self.update_dict(tokens, self.pos_freqs)
         print(self.neg_freqs)
+=======
+
+        
+>>>>>>> 378824270fd7715c87d65bb81b124d3cf8dbba17
 
         # Updating frequences: to update the frequencies for each file, you need to get
         # the text of the file, tokenize it, then update the appropriate dictionary for
@@ -110,21 +121,24 @@ class BayesClassifier:
         self.save_dict(self.neg_freqs, self.neg_filename)
 
     def classify(self, text: str) -> str:
-        """Classifies given text as positive, or negative from calculating the
+        """
+        Classifies given text as positive, or negative from calculating the
         most likely document class to which the target string belongs
 
         Args:
-            text - text to classify
+        text - text to classify
 
         Returns:
-            classification, either positive, or negative
+        classification_report, either positive, or negative
         """
         # TODO: fill me out
 
         
         # get a list of the individual tokens that occur in text
-         tokens = self.tokenize(text)
+        """
+        tokens = self.tokenize(text)
 
+        tokens = self.tokenize(text)
         # create some variables to store the positive and negative probability. since
         # we will be adding logs of probabilities, the initial values for the positive
         # and negative probabilities are set to 0
@@ -143,7 +157,10 @@ class BayesClassifier:
         # running sums. when calculating the probabilities, always add 1 to the numerator
         # of each probability for add one smoothing (so that we never have a probability
         # of 0)
+
         for token in tokens:
+          
+          for token in tokens:
             pos_freqs = self.pos_freqs.get(token, 0) + 1
             neg_freqs = self.neg_freqs.get(token, 0) + 1
     
@@ -165,6 +182,12 @@ class BayesClassifier:
         else: 
             return "negative"
     
+
+         if pos_score > neg_score:
+            return "positive"
+        else: 
+            return "negative"
+
     def load_file(self, filepath: str) -> str:
         """Loads text of given file
 
@@ -246,6 +269,16 @@ class BayesClassifier:
         # TODO: your work here
         pass  # remove this line once you've implemented this method
 
+        
+
+          # print(freqs)
+        for w in words:
+            if w in freqs:
+                freqs[w] += 1
+            else: 
+                freqs[w] = 1
+    
+
 
 if __name__ == "__main__":
     # uncomment the below lines once you've implemented `train` & `classify`
@@ -296,23 +329,4 @@ if __name__ == "__main__":
     # print("\nThe following should all be negative.")
     # print(b.classify('rainy days are the worst'))
     # print(b.classify('computer science is terrible'))
-    
-    # Use this space to complete your analysis assignment
-    print("\nThe following is to test out the method with each groups responses")
-    print(b.classify("Summer break is almost here.  I am super excited and I know that it's going to be the best"))
-
-
-    # Complete two more positive sentiment strings
-
-    # Negative sentiment statements
-    print(b.classify("I am nervous that I won't do well on the AP tests.  I have studied, but I don't think I'll do that well"))
-    # Complete two more negative sentiment strings
-
-
-    # Two positive reviews
-    print(b.classify(I am going to do so well on my test since I studied and understand the material!))
-    print(b.classify(My outift looks really good, I spent so long making it.))
     pass
-
-
-    # Two negative reviews
